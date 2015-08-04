@@ -2,4 +2,10 @@
 <resources>
     <color name="ColorPrimary">#FF5722</color>
     <color name="ColorPrimaryDark">#E64A19</color>
+
+    <color name="ColorAdd">#47ff2b</color>
+    <color name="ColorAddD">#41e625</color>
+
+    <color name="ColorSub">#fff91a</color>
+    <color name="ColorSubD">#ece619</color>
 </resources>
