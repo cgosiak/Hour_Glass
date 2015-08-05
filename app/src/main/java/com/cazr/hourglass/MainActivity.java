@@ -55,7 +55,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(this,"Settings Selected",Toast.LENGTH_LONG).show();
+            Intent settings = new Intent(this,settings.class);
+            startActivity(settings);
             return true;
         }
 

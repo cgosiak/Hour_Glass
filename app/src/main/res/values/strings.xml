@@ -7,9 +7,25 @@
     <string name="title_activity_second">SecondActivity</string>
     <string name="title_activity_enter_data">EnterData</string>
 
-    <string name="enterData">Please Enter Points Below</string>
+    <string name="enterData">How Did You Do Today</string>
 
-    <string name="points">points</string>
+    <string name="points">weight</string>
     <string name="title_activity_settings">settings</string>
+
+    <string name="personal">Your Profile</string>
+
+    <string name="workout_friend_name_hint">Name of Accountability Partner</string>
+    <string name="phone_number">Partner\'s Phone Number</string>
+    <string name="user_name_hint">Your Name</string>
+
+    <string name="gaol_weight">Goal Weight</string>
+    <string name="current_weight">Current Weight</string>
+
+    <string name="date_to_reach_goal">Date to Reach Goal By</string>
+
+    <string name="user_profile_page">User Profile Page</string>
+
+    <string name="save">SAVE</string>
+    <string name="data">DATA</string>
 
 </resources>
