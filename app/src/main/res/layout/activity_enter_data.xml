@@ -49,18 +49,19 @@
                     android:layout_margin="15dp"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/ic_down"
+                    android:src="@drawable/ic_up"
                     android:background="@drawable/sub"
                     android:id="@+id/less"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="0" />
+                    android:layout_weight="0"
+                    android:onClick="raise" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
-                    android:id="@+id/editText"
+                    android:id="@+id/points"
                     android:layout_weight="1"
                     android:gravity="center_vertical|center_horizontal"
                     android:hint="@string/points"
@@ -70,12 +71,35 @@
                     android:layout_margin="15dp"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/ic_up"
+                    android:src="@drawable/ic_down"
                     android:background="@drawable/add"
                     android:id="@+id/more"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="0" />
+                    android:layout_weight="0"
+                    android:onClick="lower" />
             </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:layout_margin="15dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/circle"
+                    android:id="@+id/upload"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0"
+                    android:onClick="upload_data" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/animate_this"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_signal_1" />
+            </FrameLayout>
 
         </LinearLayout>
 

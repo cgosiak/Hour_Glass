@@ -10,5 +10,6 @@
     <string name="enterData">Please Enter Points Below</string>
 
     <string name="points">points</string>
+    <string name="title_activity_settings">settings</string>
 
 </resources>
