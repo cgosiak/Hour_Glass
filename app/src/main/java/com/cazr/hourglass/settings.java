@@ -12,6 +12,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class settings extends ActionBarActivity {
     AnimationDrawable upload;
 
@@ -21,6 +25,8 @@ public class settings extends ActionBarActivity {
     public Integer current_weight;
     public Integer goal_weight;
     public String goal_date;
+
+    public Integer reset;
 
     public EditText user_name_field;
     public EditText friend_name_field;
@@ -44,6 +50,7 @@ public class settings extends ActionBarActivity {
 
         current_weight = 0;
         goal_weight = 0;
+        reset = 0;
 
         user_name_field = (EditText)findViewById(R.id.user_name);
         friend_name_field = (EditText)findViewById(R.id.workout_friend);
@@ -57,6 +64,7 @@ public class settings extends ActionBarActivity {
     }
 
     public void save_data(View view){
+        try{
         ImageView upload_image = (ImageView)findViewById(R.id.animate_this);
         upload_image.setBackgroundResource(R.drawable.upload_completed);
         upload = (AnimationDrawable)upload_image.getBackground();
@@ -69,6 +77,10 @@ public class settings extends ActionBarActivity {
 
         Intent main_page = new Intent(this,MainActivity.class);
         startActivity(main_page);
+        }
+        catch (Exception e){
+            Toast.makeText(this,"Please Enter All Data Fields",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void update_user_input(){
@@ -81,7 +93,25 @@ public class settings extends ActionBarActivity {
         update_prefs();
     }
 
+    public void reset_all(View view){
+        if (reset == 0){
+            Toast.makeText(this,"This Will Delete all User Data...\nPress Again to Perform Action",Toast.LENGTH_LONG).show();
+            reset += 1;
+        }
+        else {
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.clear();
+            editor.apply();
+            Intent main_page = new Intent(this,MainActivity.class);
+            startActivity(main_page);
+        }
+    }
+
     public void update_prefs(){
+        DateFormat df = new SimpleDateFormat("MM/dd/yy");
+        Calendar calendar = Calendar.getInstance();
+        String todays_date = df.format(calendar.getTime());
+        String packet = (todays_date + ":" + current_weight + ":" + "0" + ":" + "0" + ",");
         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         editor.putString("user_name", user_name);
         editor.putString("friend_name", friend_name);
@@ -90,6 +120,7 @@ public class settings extends ActionBarActivity {
         editor.putInt("goal_weight",goal_weight);
         editor.putString("goal_date", goal_date);
         editor.putBoolean("restoredText", true);
+        editor.putString("packet",packet);
         editor.apply();
     }
 

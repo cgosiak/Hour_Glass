@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class EnterData extends ActionBarActivity {
 
     public EditText points;
@@ -23,6 +28,10 @@ public class EnterData extends ActionBarActivity {
     public Integer current_weight;
     public Integer goal_weight;
     public String goal_date;
+    public String string_list;
+    public String todays_date;
+    public String last_date_entered;
+    public String packet;
 
     public Integer updated_weight;
 
@@ -57,16 +66,26 @@ public class EnterData extends ActionBarActivity {
     }
 
     public void update_prefs(){
-        updated_weight = Integer.parseInt(points.getText().toString());
-        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putInt("cur_weight", updated_weight);
-        editor.apply();
+        DateFormat df = new SimpleDateFormat("MM/dd/yy");
+        Calendar calendar = Calendar.getInstance();
+        todays_date = df.format(calendar.getTime());
 
         gained = String.valueOf(updated_weight - current_weight);
         message_to_user_bad = "Sorry " + user_name + ", You Gained " + gained + " lbs";
 
         lost = String.valueOf(current_weight - updated_weight);
         message_to_user_good = "Congratulations " + user_name + ", You Lost " + lost + " lbs";
+
+        packet = (todays_date + ":" + current_weight + ":" + gained + ":" + lost + ",");
+
+        updated_weight = Integer.parseInt(points.getText().toString());
+        string_list = string_list + updated_weight + ",";
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putInt("cur_weight", updated_weight);
+        editor.putString("string_list", string_list);
+        editor.putString("last_date_entered",todays_date);
+        editor.putString("packet",packet);
+        editor.apply();
 
         if (updated_weight > current_weight){
             Toast.makeText(this,message_to_user_bad,Toast.LENGTH_LONG).show();
@@ -89,14 +108,24 @@ public class EnterData extends ActionBarActivity {
             friend_name = prefs.getString("friend_name", "");
             friend_phone = prefs.getString("friend_phone", "");
             current_weight = prefs.getInt("cur_weight", 0);
+            updated_weight = current_weight;
             goal_weight = prefs.getInt("goal_weight", 0);
             goal_date = prefs.getString("goal_date", "");
+            string_list = prefs.getString("string_list","");
+            last_date_entered = prefs.getString("last_date_entered","");
+            packet = prefs.getString("packet","");
         }
         fill_in_fields();
     }
 
     public void fill_in_fields(){
+        try{
         points.setText(current_weight.toString());
+        }
+        catch (Exception e){
+            current_weight = 0;
+            points.setText("");
+        }
     }
 
     @Override
@@ -106,17 +135,30 @@ public class EnterData extends ActionBarActivity {
         return true;
     }
 
+
     public void upload_data(View view){
-        ImageView upload_image = (ImageView)findViewById(R.id.animate_this);
-        upload_image.setBackgroundResource(R.drawable.upload_completed);
-        upload = (AnimationDrawable)upload_image.getBackground();
+        DateFormat df = new SimpleDateFormat("MM/dd/yy");
+        Calendar calendar = Calendar.getInstance();
+        todays_date = df.format(calendar.getTime());
 
-        upload.start();
+        if (todays_date.equals(last_date_entered)){
+            Toast.makeText(this,"Data Already Entered Once Today",Toast.LENGTH_LONG).show();
+            Intent go_back = new Intent(this,MainActivity.class);
+            startActivity(go_back);
+        }
 
-        update_prefs();
+        else {
+            ImageView upload_image = (ImageView) findViewById(R.id.animate_this);
+            upload_image.setBackgroundResource(R.drawable.upload_completed);
+            upload = (AnimationDrawable) upload_image.getBackground();
 
-        Intent go_back = new Intent(this,MainActivity.class);
-        startActivity(go_back);
+            upload.start();
+
+            update_prefs();
+
+            Intent go_back = new Intent(this, MainActivity.class);
+            startActivity(go_back);
+        }
     }
 
     public void raise(View view){

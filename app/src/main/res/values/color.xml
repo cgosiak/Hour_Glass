@@ -8,4 +8,6 @@
 
     <color name="ColorSub">#fff91a</color>
     <color name="ColorSubD">#ece619</color>
+
+    <color name="backRed">#B5340B</color>
 </resources>

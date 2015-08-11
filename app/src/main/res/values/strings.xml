@@ -28,4 +28,6 @@
     <string name="save">SAVE</string>
     <string name="data">DATA</string>
 
+    <string name="reset">RESET</string>
+
 </resources>

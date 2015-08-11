@@ -10,6 +10,13 @@
 
         ></include>
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_recap"
+        android:layout_gravity="left|top"
+        android:layout_below="@+id/toolbar" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,17 +25,6 @@
         android:layout_alignParentTop="true"
         android:id="@+id/frameLayout">
 
-        <TextView
-            android:id="@+id/TextAct1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:text="This is the first Activity, Say Hi"
-            android:textSize="25dp" />
-
         <ImageButton
             android:layout_margin="15dp"
             android:layout_width="70dp"
@@ -36,7 +32,8 @@
             android:src="@drawable/ic_action"
             android:background="@drawable/circle"
             android:id="@+id/imageButton"
-            android:layout_gravity="right|bottom" />
+            android:layout_gravity="right|bottom"
+            android:onClick="fab_Button" />
 
 
     </FrameLayout>
