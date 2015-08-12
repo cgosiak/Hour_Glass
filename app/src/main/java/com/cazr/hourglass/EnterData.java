@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,8 @@ public class EnterData extends ActionBarActivity {
     public String message_to_user_bad;
     public String message_to_friend_good;
     public String message_to_friend_bad;
+    public String message_nothing_changed;
+    public String text_message;
 
     public String gained;
     public String lost;
@@ -70,34 +73,54 @@ public class EnterData extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         todays_date = df.format(calendar.getTime());
 
+        updated_weight = Integer.parseInt(points.getText().toString());
+
         gained = String.valueOf(updated_weight - current_weight);
         message_to_user_bad = "Sorry " + user_name + ", You Gained " + gained + " lbs";
+        message_to_friend_bad = "Sorry, it Looks Like Your Partner Wasn't Very Active Yesterday. Remember: This is a Team Effort and They Need Your Support! So Let's Do This Together!";
 
         lost = String.valueOf(current_weight - updated_weight);
         message_to_user_good = "Congratulations " + user_name + ", You Lost " + lost + " lbs";
+        message_to_friend_good = "Awesome Work Team! Because of Your Support, " + user_name + " Was Able to Keep on Moving Towards Their Goal!";
+        message_nothing_changed = "Well, Your Partner didn't Lose Progress, or make Progress. Consider this a Win for the Team, but Strive to Work with Your Teammate More and Accomplish Your Goals Together!";
 
-        packet = (todays_date + ":" + current_weight + ":" + gained + ":" + lost + ",");
+        packet = packet + (todays_date + ":" + current_weight + ":" + gained + ":" + lost + ",");
 
-        updated_weight = Integer.parseInt(points.getText().toString());
         string_list = string_list + updated_weight + ",";
         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         editor.putInt("cur_weight", updated_weight);
         editor.putString("string_list", string_list);
         editor.putString("last_date_entered",todays_date);
-        editor.putString("packet",packet);
+        editor.putString("packet", packet);
         editor.apply();
 
         if (updated_weight > current_weight){
             Toast.makeText(this,message_to_user_bad,Toast.LENGTH_LONG).show();
+            text_message = message_to_friend_bad;
         }
         else {
          if (updated_weight.equals(current_weight)){
              Toast.makeText(this,"You Remained Exactly the Same! Let's Hit it Harder Tomorrow!",Toast.LENGTH_LONG).show();
+             text_message = message_nothing_changed;
          }
             else {
              Toast.makeText(this,message_to_user_good,Toast.LENGTH_LONG).show();
+             text_message = message_to_friend_good;
          }
         }
+        text_your_friend(text_message);
+    }
+
+    public void text_your_friend(String message){
+        try {
+            Toast.makeText(this,"Text to Accountability Partner has Been Sent!", Toast.LENGTH_LONG).show();
+            SmsManager send_text = SmsManager.getDefault();
+            send_text.sendTextMessage(friend_phone, null, message, null, null);
+        }
+        catch (Exception e){
+            Toast.makeText(this,"Unfortunately We Were Unable to Send Your Accountability Buddy Your Update. Try Again Later!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void get_prefs(){
@@ -159,6 +182,7 @@ public class EnterData extends ActionBarActivity {
             Intent go_back = new Intent(this, MainActivity.class);
             startActivity(go_back);
         }
+
     }
 
     public void raise(View view){
