@@ -20,16 +20,16 @@ public class Recap {
         this.gained = gained;
 
         if (this.gained > 0){
-            recap_drawable = R.drawable.ic_up;
+            recap_drawable = R.drawable.ic_more;
             this.gained_lost_amt = this.gained;
         }
         else {
             if (this.lost > 0){
-                recap_drawable = R.drawable.ic_down;
+                recap_drawable = R.drawable.ic_less;
                 this.gained_lost_amt = this.lost;
             }
             else {
-                recap_drawable = R.drawable.ic_back;
+                recap_drawable = R.drawable.ic_equal;
                 this.gained_lost_amt = 0;
             }
         }
